@@ -1,10 +1,12 @@
-
 import './App.css';
+import BodySection from './components/body';
 import Layout from './components/Layout';
 
 function App() {
   return (
-    <Layout />
+    <Layout>
+     <BodySection />
+    </Layout>
   );
 }
 
