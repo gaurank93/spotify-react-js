@@ -1,6 +1,11 @@
 import React from "react";
 
 function Player() {
+  let audio = new Audio("https://file-examples-com.github.io/uploads/2017/11/file_example_MP3_2MG.mp3");
+
+  const start = () => {
+    audio.play();
+  };
   return (
     <footer className="bg-gray-200 col-span-6 p-4 grid grid-cols-3 gap-6">
       <div className="flex items-center">
@@ -61,7 +66,10 @@ function Player() {
               <path d="M4 5h3v10H4V5zm12 0v10l-9-5 9-5z" />
             </svg>
           </button>
-          <button className="w-8 h-8 border border-gray-300 rounded-full flex text-gray-100 mr-6">
+          <button
+            className="w-8 h-8 border border-gray-300 rounded-full flex text-gray-100 mr-6"
+            onClick={start}
+          >
             <svg
               className="fill-current h-5 w-5 m-auto"
               xmlns="http://www.w3.org/2000/svg"
