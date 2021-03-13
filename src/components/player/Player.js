@@ -2,7 +2,7 @@ import React from "react";
 
 function Player() {
   let audio = new Audio("https://file-examples-com.github.io/uploads/2017/11/file_example_MP3_2MG.mp3");
-
+     console.log(audio.positionMillis);
   const start = () => {
     audio.play();
   };

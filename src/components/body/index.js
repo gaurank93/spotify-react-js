@@ -2,14 +2,14 @@ import { useState } from "react";
 import Header from "../header";
 
 function BodySection() {
-  const [dataToShow, setDataToShow] = useState([
+  const [recentlyPlayed, setrecentlyPlayed] = useState([
     {
       songName: "Chinese Lo-FI",
       artistName: "By @Nike1nike",
       SongImage: "https://picsum.photos/129.webp?random=1",
       songLink:
         "https://file-examples-com.github.io/uploads/2017/11/file_example_MP3_2MG.mp3",
-      isPlay: false,
+      isPlay: true,
       isHover: false,
       id: 1,
     },
@@ -66,24 +66,24 @@ function BodySection() {
   ]);
 
   function handleMouseEnter(id) {
-    let tmp = [...dataToShow];
+    let tmp = [...recentlyPlayed];
     tmp.map((data) => {
       if (data.id === id) {
         data.isHover = true;
       }
       return data;
     });
-    setDataToShow(tmp);
+    setrecentlyPlayed(tmp);
   }
   function handleMouseLeave(id) {
-    let tmp = [...dataToShow];
+    let tmp = [...recentlyPlayed];
     tmp.map((data) => {
-      if (data.id === id) {
-        data.isHover = false;
+      if (data.id === id ) {
+            data.isHover = false;
       }
       return data;
     });
-    setDataToShow(tmp);
+    setrecentlyPlayed(tmp);
   }
 
   return (
@@ -111,8 +111,8 @@ function BodySection() {
           </div>
         </div>
         <div className="grid grid-cols-6 gap-4">
-          {dataToShow &&
-            dataToShow.map((item) => (
+          {recentlyPlayed &&
+            recentlyPlayed.map((item) => (
               <div
                 className="bg-gray-200 rounded-lg p-5"
                 key={`${item.songName}-${item.artistName}`}
@@ -139,14 +139,19 @@ function BodySection() {
                   </span>
                   {item.isHover && (
                     <button className="absolute right-0 top-0 w-10 h-10 bg-green-200 rounded-full flex text-white">
-                      {/* <svg
-                        className="fill-current h-5 w-5 m-auto"
-                        xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 20 20"
-                      >
-                        <path d="M5 4h3v12H5V4zm7 0h3v12h-3V4z" />
-                      </svg> */}
-                      <i className="fa fa-play" aria-hidden="true"></i>
+                      <svg
+                      className="fill-current h-5 w-5 m-auto"
+                    aria-hidden="true"
+                    focusable="false"
+                    data-prefix="fas"
+                    data-icon="play"
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 448 512"
+                  >
+                    <path
+                      d="M424.4 214.7L72.4 6.6C43.8-10.3 0 6.1 0 47.9V464c0 37.5 40.7 60.1 72.4 41.3l352-208c31.4-18.5 31.5-64.1 0-82.6z"
+                    ></path>
+                  </svg>
                     </button>
                   )}
                 </div>
@@ -161,8 +166,8 @@ function BodySection() {
           </div>
         </div>
         <div className="grid grid-cols-6 gap-4">
-          {dataToShow &&
-            dataToShow.map((item) => (
+          {recentlyPlayed &&
+            recentlyPlayed.map((item) => (
               <div
                 className="bg-gray-200 rounded-lg p-5"
                 key={`second${item.songName}-${item.artistName}`}
@@ -181,15 +186,15 @@ function BodySection() {
                   <span className="text-xs text-gray-100 text-line-clamp-1">
                     {item.artistName}
                   </span>
-                  {item.isHover && (
+                  {item.isHover && (  
                     <button className="absolute right-0 top-0 w-10 h-10 bg-green-200 rounded-full flex text-white">
-                      <svg
-                        className="fill-current h-5 w-5 m-auto"
-                        xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 20 20"
-                      >
-                        <path d="M5 4h3v12H5V4zm7 0h3v12h-3V4z" />
-                      </svg>
+                            <svg
+                            className="fill-current h-5 w-5 m-auto"
+                            xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 20 20"
+                          >
+                            <path d="M5 4h3v12H5V4zm7 0h3v12h-3V4z" />
+                          </svg>
                     </button>
                   )}
                 </div>
@@ -219,8 +224,8 @@ function BodySection() {
           </div>
         </div>
         <div className="grid grid-cols-6 gap-4">
-          {dataToShow &&
-            dataToShow.map((item) => (
+          {recentlyPlayed &&
+            recentlyPlayed.map((item) => (
               <div
                 className="bg-gray-200 rounded-lg p-5"
                 key={`third${item.songName}-${item.artistName}`}

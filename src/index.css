@@ -6226,7 +6226,7 @@ video {
   box-shadow: none;
 }
 .fill-current {
-  fill: currentColor;
+  fill: white;
 }
 .stroke-current {
   stroke: currentColor;
