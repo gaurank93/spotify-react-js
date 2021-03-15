@@ -1,10 +1,16 @@
-import React from "react";
+import { useState } from "react";
 
 function Player() {
-  let audio = new Audio("https://file-examples-com.github.io/uploads/2017/11/file_example_MP3_2MG.mp3");
-     console.log(audio.positionMillis);
+  const [playPause, setplayPause] = useState(true);
+  const [audio] = useState(new Audio("/Indila-DernièreDanse.mp3"));
   const start = () => {
-    audio.play();
+    if (playPause) {
+      audio.play();
+      setplayPause(false);
+    } else {
+      audio.pause();
+      setplayPause(true);
+    }
   };
   return (
     <footer className="bg-gray-200 col-span-6 p-4 grid grid-cols-3 gap-6">
@@ -70,13 +76,27 @@ function Player() {
             className="w-8 h-8 border border-gray-300 rounded-full flex text-gray-100 mr-6"
             onClick={start}
           >
-            <svg
-              className="fill-current h-5 w-5 m-auto"
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 20 20"
-            >
-              <path d="M5 4h3v12H5V4zm7 0h3v12h-3V4z" />
-            </svg>
+            {!playPause ? 
+              <svg
+                className="fill-current h-5 w-5 m-auto"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 20 20"
+              >
+                <path d="M5 4h3v12H5V4zm7 0h3v12h-3V4z" />
+              </svg>
+             : 
+              <svg
+                className="fill-current h-3 w-4 m-auto"
+                aria-hidden="true"
+                focusable="false"
+                data-prefix="fas"
+                data-icon="play"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 440 510"
+              >
+                <path d="M424.4 214.7L72.4 6.6C43.8-10.3 0 6.1 0 47.9V464c0 37.5 40.7 60.1 72.4 41.3l352-208c31.4-18.5 31.5-64.1 0-82.6z"></path>
+              </svg>
+            }
           </button>
           <button className="w-5 h-5 text-gray-100 mr-6">
             <svg

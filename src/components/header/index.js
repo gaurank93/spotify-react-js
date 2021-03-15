@@ -26,6 +26,7 @@ function Header() {
           <img
             src="https://picsum.photos/129.webp?random=7"
             className="w-7 h-7 inline-block rounded-full mr-2"
+            alt=""
           />
           Jedidiah Avelino
         </button>
