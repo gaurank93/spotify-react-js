@@ -5,6 +5,12 @@ import Player from "../player/Player";
 
 function BodySection() {
   const audioControlRef = useRef(null);
+  const [songInfo, setSongInfo] = useState({
+    currentTime: 0,
+    duration: 0,
+    animationPercentage: 0,
+    volume: 0,
+  });
   const [recentlyPlayed, setrecentlyPlayed] = useState([
     {
       songName: "Beaver Creek",
@@ -19,7 +25,7 @@ function BodySection() {
       songName: "FLY",
       artistName: "Gaho",
       SongImage: "https://picsum.photos/129.webp?random=2",
-      songLink: "/Indila-DernièreDanse.mp3",
+      songLink: "/assets/songs/Daylight.mp3",
       isPlay: false,
       isHover: false,
       id: 2,
@@ -28,8 +34,7 @@ function BodySection() {
       songName: "Ludwig van Beethoven",
       artistName: "Artist",
       SongImage: "https://picsum.photos/129.webp?random=3",
-      songLink:
-        "https://file-examples-com.github.io/uploads/2017/11/file_example_MP3_2MG.mp3",
+      songLink: "/assets/songs/Keep-Going.mp3",
       isPlay: false,
       isHover: false,
       id: 3,
@@ -38,7 +43,7 @@ function BodySection() {
       songName: " Hotel Del Luna OST",
       artistName: "By Jamie Lee",
       SongImage: "https://picsum.photos/129.webp?random=4",
-      songLink: "/Indila-DernièreDanse.mp3",
+      songLink: "/assets/songs/Nightfall.mp3",
       isPlay: false,
       isHover: false,
       id: 4,
@@ -47,8 +52,7 @@ function BodySection() {
       songName: " ITAEWON className (Original Television Soundtrack) Pt.2",
       artistName: "Gaho",
       SongImage: "https://picsum.photos/129.webp?random=5",
-      songLink:
-        "https://file-examples-com.github.io/uploads/2017/11/file_example_MP3_2MG.mp3",
+      songLink: "/assets/songs/Reflection.mp3",
       isPlay: false,
       isHover: false,
       id: 5,
@@ -57,7 +61,7 @@ function BodySection() {
       songName: "Preparation For a Journey",
       artistName: "Gaho",
       SongImage: "https://picsum.photos/129.webp?random=6",
-      songLink: "/Indila-DernièreDanse.mp3",
+      songLink: "/assets/songs/Under-the-City-Stars.mp3",
       isPlay: false,
       isHover: false,
       id: 6,
@@ -87,6 +91,21 @@ function BodySection() {
   function handleClick(data) {
     setAudioSrc(data);
   }
+  const timeUpdateHandler = (e) => {
+    const current = e.target.currentTime;
+    const duration = e.target.duration;
+
+    const roundedCurrent = Math.round(current);
+    const roundedDuration = Math.round(duration);
+    const percentage = Math.round((roundedCurrent / roundedDuration) * 100);
+    setSongInfo({
+      ...songInfo,
+      currentTime: current,
+      duration: duration,
+      animationPercentage: percentage,
+      volume: e.target.volume,
+    });
+  };
   return (
     <>
       <main className="col-span-5 row-span-3 overflow-auto height-main-body">
@@ -183,8 +202,18 @@ function BodySection() {
           </div>
         </section>
       </main>
-      <Player audioControlRef={audioControlRef} audioSrc={audioSrc} />
-      <audio ref={audioControlRef} src={audioSrc.songLink}></audio>
+      <Player
+        audioControlRef={audioControlRef}
+        audioSrc={audioSrc}
+        songInfo={songInfo}
+        setSongInfo={setSongInfo}
+      />
+      <audio
+        ref={audioControlRef}
+        src={audioSrc.songLink}
+        onLoadedMetadata={timeUpdateHandler}
+        onTimeUpdate={timeUpdateHandler}
+      ></audio>
     </>
   );
 }

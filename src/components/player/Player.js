@@ -1,8 +1,21 @@
 import { useEffect, useState, useRef } from "react";
 
-function Player({audioControlRef, audioSrc}) {
+function Player({ audioControlRef, audioSrc, songInfo, setSongInfo }) {
   const [playPause, setplayPause] = useState(true);
-
+  const trackAnim = {
+    transform: `translateX(${songInfo.animationPercentage}%)`,
+  };
+  const textColor = {color: 'white'}
+  const inputWidth ={width: '100%'}
+  function getTime(time) {
+    return (
+      Math.floor(time / 60) + ":" + ("0" + Math.floor(time % 60)).slice(-2)
+    );
+  }
+  const dragHandler = (e) => {
+    audioControlRef.current.currentTime = e.target.value;
+    setSongInfo({ ...songInfo, currentTime: e.target.value });
+  };
   const start = () => {
     if (playPause) {
       audioControlRef.current.play();
@@ -12,7 +25,6 @@ function Player({audioControlRef, audioSrc}) {
       setplayPause(true);
     }
   };
-  
 
   return (
     <>
@@ -24,9 +36,7 @@ function Player({audioControlRef, audioSrc}) {
             alt=""
           />
           <div className="mr-4">
-            <div
-              className="text-sm text-white text-line-clamp-1 font-light"
-            >
+            <div className="text-sm text-white text-line-clamp-1 font-light">
               {audioSrc.songName}
             </div>
             <div className="text-xs text-gray-100 text-line-clamp-1">
@@ -123,12 +133,21 @@ function Player({audioControlRef, audioSrc}) {
             </button>
           </div>
           <div className="flex items-center">
-            <span className="text-xs text-gray-100 font-light">4:18</span>
-            <div className="overflow-hidden relative flex-1 mx-2 rounded">
-              <div className="border-b-4 border-gray-400 rounded"></div>
-              <div className="absolute inset-x-0 top-0 -translate-x-48 border-b-4 border-gray-100 rounded transform hover:border-green-200"></div>
+          <p style={textColor}>{getTime(songInfo.currentTime)}</p>
+            <div className="flex-1 mx-2">
+              <div className="">
+              <input
+                value={songInfo.currentTime}
+                type="range"
+                max={songInfo.duration || 0}
+                min={0}
+                onChange={dragHandler}
+                style={inputWidth}
+              />
+              <div style={trackAnim} className="animate-track"></div>
+              </div>
             </div>
-            <span className="text-xs text-gray-100 font-light">5:13</span>
+            <p style={textColor}>{songInfo.duration ? getTime(songInfo.duration) : "0:00"}</p>
           </div>
         </div>
       </footer>
