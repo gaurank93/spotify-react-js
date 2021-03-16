@@ -1,11 +1,11 @@
-import './App.css';
-import BodySection from './components/body';
-import Layout from './components/Layout';
+import "./App.css";
+import BodySection from "./components/body";
+import Layout from "./components/Layout";
 
 function App() {
   return (
     <Layout>
-     <BodySection />
+      <BodySection />
     </Layout>
   );
 }
