@@ -1,12 +1,18 @@
-import { useEffect, useState, useRef } from "react";
+import { useState } from "react";
 
-function Player({ audioControlRef, audioSrc, songInfo, setSongInfo }) {
+function Player({
+  audioControlRef,
+  audioData,
+  songInfo,
+  setSongInfo,
+  SongChange,
+}) {
   const [playPause, setplayPause] = useState(true);
   const trackAnim = {
     transform: `translateX(${songInfo.animationPercentage}%)`,
   };
-  const textColor = {color: 'white'}
-  const inputWidth ={width: '100%'}
+  const textColor = { color: "white" };
+  const inputWidth = { width: "100%" };
   function getTime(time) {
     return (
       Math.floor(time / 60) + ":" + ("0" + Math.floor(time % 60)).slice(-2)
@@ -32,15 +38,15 @@ function Player({ audioControlRef, audioSrc, songInfo, setSongInfo }) {
         <div className="flex items-center">
           <img
             className="h-14 w-14 mr-4 flex-shrink-0"
-            src={audioSrc.SongImage}
+            src={audioData.SongImage}
             alt=""
           />
           <div className="mr-4">
             <div className="text-sm text-white text-line-clamp-1 font-light">
-              {audioSrc.songName}
+              {audioData.songName}
             </div>
             <div className="text-xs text-gray-100 text-line-clamp-1">
-              <span>{audioSrc.artistName}</span>
+              <span>{audioData.artistName}</span>
             </div>
           </div>
           <div className="flex items-center">
@@ -78,7 +84,12 @@ function Player({ audioControlRef, audioSrc, songInfo, setSongInfo }) {
                 <path d="M6.59 12.83L4.4 15c-.58.58-1.59 1-2.4 1H0v-2h2c.29 0 .8-.2 1-.41l2.17-2.18 1.42 1.42zM16 4V1l4 4-4 4V6h-2c-.29 0-.8.2-1 .41l-2.17 2.18L9.4 7.17 11.6 5c.58-.58 1.59-1 2.41-1h2zm0 10v-3l4 4-4 4v-3h-2c-.82 0-1.83-.42-2.41-1l-8.6-8.59C2.8 6.21 2.3 6 2 6H0V4h2c.82 0 1.83.42 2.41 1l8.6 8.59c.2.2.7.41.99.41h2z" />
               </svg>
             </button>
-            <button className="w-5 h-5 text-gray-100 mr-6">
+            <button
+              className="w-5 h-5 text-gray-100 mr-6"
+              onClick={() => {
+                SongChange(audioData.id, "back");
+              }}
+            >
               <svg
                 className="fill-current"
                 xmlns="http://www.w3.org/2000/svg"
@@ -113,7 +124,12 @@ function Player({ audioControlRef, audioSrc, songInfo, setSongInfo }) {
                 </svg>
               )}
             </button>
-            <button className="w-5 h-5 text-gray-100 mr-6">
+            <button
+              className="w-5 h-5 text-gray-100 mr-6"
+              onClick={() => {
+                SongChange(audioData.id, "forward");
+              }}
+            >
               <svg
                 className="fill-current"
                 xmlns="http://www.w3.org/2000/svg"
@@ -133,21 +149,23 @@ function Player({ audioControlRef, audioSrc, songInfo, setSongInfo }) {
             </button>
           </div>
           <div className="flex items-center">
-          <p style={textColor}>{getTime(songInfo.currentTime)}</p>
+            <p style={textColor}>{getTime(songInfo.currentTime)}</p>
             <div className="flex-1 mx-2">
               <div className="">
-              <input
-                value={songInfo.currentTime}
-                type="range"
-                max={songInfo.duration || 0}
-                min={0}
-                onChange={dragHandler}
-                style={inputWidth}
-              />
-              <div style={trackAnim} className="animate-track"></div>
+                <input
+                  value={songInfo.currentTime}
+                  type="range"
+                  max={songInfo.duration || 0}
+                  min={0}
+                  onChange={dragHandler}
+                  style={inputWidth}
+                />
+                <div style={trackAnim} className="animate-track"></div>
               </div>
             </div>
-            <p style={textColor}>{songInfo.duration ? getTime(songInfo.duration) : "0:00"}</p>
+            <p style={textColor}>
+              {songInfo.duration ? getTime(songInfo.duration) : "0:00"}
+            </p>
           </div>
         </div>
       </footer>

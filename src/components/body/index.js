@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import Card from "../card";
 import Header from "../header";
 import Player from "../player/Player";
@@ -8,9 +8,9 @@ function BodySection() {
   const [songInfo, setSongInfo] = useState({
     currentTime: 0,
     duration: 0,
-    animationPercentage: 0,
     volume: 0,
   });
+  const firstTime = useRef(false);
   const [recentlyPlayed, setrecentlyPlayed] = useState([
     {
       songName: "Beaver Creek",
@@ -19,7 +19,7 @@ function BodySection() {
       songLink: "/assets/songs/Beaver-Creek.mp3",
       isPlay: false,
       isHover: false,
-      id: 1,
+      id: 0,
     },
     {
       songName: "FLY",
@@ -28,7 +28,7 @@ function BodySection() {
       songLink: "/assets/songs/Daylight.mp3",
       isPlay: false,
       isHover: false,
-      id: 2,
+      id: 1,
     },
     {
       songName: "Ludwig van Beethoven",
@@ -37,7 +37,7 @@ function BodySection() {
       songLink: "/assets/songs/Keep-Going.mp3",
       isPlay: false,
       isHover: false,
-      id: 3,
+      id: 2,
     },
     {
       songName: " Hotel Del Luna OST",
@@ -46,7 +46,7 @@ function BodySection() {
       songLink: "/assets/songs/Nightfall.mp3",
       isPlay: false,
       isHover: false,
-      id: 4,
+      id: 3,
     },
     {
       songName: " ITAEWON className (Original Television Soundtrack) Pt.2",
@@ -55,7 +55,7 @@ function BodySection() {
       songLink: "/assets/songs/Reflection.mp3",
       isPlay: false,
       isHover: false,
-      id: 5,
+      id: 4,
     },
     {
       songName: "Preparation For a Journey",
@@ -64,10 +64,10 @@ function BodySection() {
       songLink: "/assets/songs/Under-the-City-Stars.mp3",
       isPlay: false,
       isHover: false,
-      id: 6,
+      id: 5,
     },
   ]);
-  const [audioSrc, setAudioSrc] = useState(recentlyPlayed[0]);
+  const [audioData, setAudioData] = useState(recentlyPlayed[0]);
   function handleMouseEnter(id) {
     let tmp = [...recentlyPlayed];
     tmp.map((data) => {
@@ -88,24 +88,45 @@ function BodySection() {
     });
     setrecentlyPlayed(tmp);
   }
-  function handleClick(data) {
-    setAudioSrc(data);
+  function handleClick(dataPass) {
+    setAudioData(dataPass);
+    let tmp = [...recentlyPlayed];
+    tmp.map((data) => {
+      if (data.id === dataPass.id) {
+        data.isPlay = true;
+      }else{
+        data.isPlay = false;
+        data.isHover = false;
+      }
+    });
+    setrecentlyPlayed(tmp);
+  }
+  function SongChange(id, type) {
+    if (type === "forward") {
+      setAudioData(recentlyPlayed[(id + 1) % recentlyPlayed.length]);
+    } else if (type === "back") {
+      if (id === 0) {
+        setAudioData(recentlyPlayed[recentlyPlayed.length - 1]);
+      } else {
+        setAudioData(recentlyPlayed[(id - 1) % recentlyPlayed.length]);
+      }
+    }
   }
   const timeUpdateHandler = (e) => {
     const current = e.target.currentTime;
     const duration = e.target.duration;
-
-    const roundedCurrent = Math.round(current);
-    const roundedDuration = Math.round(duration);
-    const percentage = Math.round((roundedCurrent / roundedDuration) * 100);
     setSongInfo({
       ...songInfo,
       currentTime: current,
       duration: duration,
-      animationPercentage: percentage,
       volume: e.target.volume,
     });
   };
+  useEffect(()=>{
+   if(audioData.isPlay){
+    audioControlRef.current.play()
+   }
+  },[audioData,recentlyPlayed])
   return (
     <>
       <main className="col-span-5 row-span-3 overflow-auto height-main-body">
@@ -116,7 +137,7 @@ function BodySection() {
               <h3 className="text-2xl text-white">
                 <a
                   className="border-b border-transparent hover:border-white"
-                  href=""
+                  href="!#"
                 >
                   Recently played
                 </a>
@@ -125,7 +146,7 @@ function BodySection() {
             <div>
               <a
                 className="text-xs text-gray-100 tracking-widest uppercase hover:underline"
-                href=""
+                href="!#"
               >
                 See all
               </a>
@@ -172,7 +193,7 @@ function BodySection() {
               <h3 className="text-2xl text-white">
                 <a
                   className="border-b border-transparent hover:border-white"
-                  href=""
+                  href="!#"
                 >
                   Made for Jedidiah
                 </a>
@@ -181,7 +202,7 @@ function BodySection() {
             <div>
               <a
                 className="text-xs text-gray-100 tracking-widest uppercase hover:underline"
-                href=""
+                href="!#"
               >
                 See all
               </a>
@@ -204,13 +225,14 @@ function BodySection() {
       </main>
       <Player
         audioControlRef={audioControlRef}
-        audioSrc={audioSrc}
+        audioData={audioData}
         songInfo={songInfo}
         setSongInfo={setSongInfo}
+        SongChange={SongChange}
       />
       <audio
         ref={audioControlRef}
-        src={audioSrc.songLink}
+        src={audioData.songLink}
         onLoadedMetadata={timeUpdateHandler}
         onTimeUpdate={timeUpdateHandler}
       ></audio>

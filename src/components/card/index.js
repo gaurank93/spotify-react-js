@@ -8,7 +8,9 @@ function Card(props) {
         props.handleMouseEnter(props.data.id);
       }}
       onMouseLeave={() => {
-        props.handleMouseLeave(props.data.id);
+        if(!props.data.isPlay){
+          props.handleMouseLeave(props.data.id);
+        }
       }}
     >
       <div className="relative pt-full mb-4">
@@ -44,8 +46,8 @@ function Card(props) {
                 data-icon="play"
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 440 510"
-                onClick={()=>{
-                  props.handleClick(props.data)
+                onClick={() => {
+                  props.handleClick(props.data);
                 }}
               >
                 <path d="M424.4 214.7L72.4 6.6C43.8-10.3 0 6.1 0 47.9V464c0 37.5 40.7 60.1 72.4 41.3l352-208c31.4-18.5 31.5-64.1 0-82.6z"></path>
