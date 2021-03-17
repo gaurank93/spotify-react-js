@@ -10,7 +10,6 @@ function BodySection() {
     duration: 0,
     volume: 0,
   });
-  const firstTime = useRef(false);
   const [recentlyPlayed, setrecentlyPlayed] = useState([
     {
       songName: "Beaver Creek",
@@ -72,7 +71,7 @@ function BodySection() {
     let tmp = [...recentlyPlayed];
     tmp.map((data) => {
       if (data.id === id) {
-        data.isHover = true;
+         data.isHover = true;
       }
       return data;
     });
@@ -89,17 +88,18 @@ function BodySection() {
     setrecentlyPlayed(tmp);
   }
   function handleClick(dataPass) {
-    setAudioData(dataPass);
     let tmp = [...recentlyPlayed];
     tmp.map((data) => {
       if (data.id === dataPass.id) {
-        data.isPlay = true;
-      }else{
+        data.isPlay = !data.isPlay;
+      } else {
         data.isPlay = false;
         data.isHover = false;
       }
+      return data
     });
     setrecentlyPlayed(tmp);
+    setAudioData(dataPass)
   }
   function SongChange(id, type) {
     if (type === "forward") {
@@ -122,11 +122,13 @@ function BodySection() {
       volume: e.target.volume,
     });
   };
-  useEffect(()=>{
-   if(audioData.isPlay){
-    audioControlRef.current.play()
-   }
-  },[audioData,recentlyPlayed])
+  useEffect(() => {
+    if (audioData.isPlay) {
+      audioControlRef.current.play();
+    }else{
+      audioControlRef.current.pause();
+    }
+  }, [audioData, recentlyPlayed]);
   return (
     <>
       <main className="col-span-5 row-span-3 overflow-auto height-main-body">
@@ -226,6 +228,7 @@ function BodySection() {
       <Player
         audioControlRef={audioControlRef}
         audioData={audioData}
+        setAudioData={setAudioData}
         songInfo={songInfo}
         setSongInfo={setSongInfo}
         SongChange={SongChange}

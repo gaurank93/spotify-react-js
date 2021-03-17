@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 function Player({
   audioControlRef,
@@ -6,8 +6,9 @@ function Player({
   songInfo,
   setSongInfo,
   SongChange,
+  setAudioData,
 }) {
-  const [playPause, setplayPause] = useState(true);
+  const [playPause, setplayPause] = useState(audioData.isPlay);
   const trackAnim = {
     transform: `translateX(${songInfo.animationPercentage}%)`,
   };
@@ -26,11 +27,16 @@ function Player({
     if (playPause) {
       audioControlRef.current.play();
       setplayPause(false);
+      setAudioData({ ...audioData, isPlay: false});
     } else {
       audioControlRef.current.pause();
       setplayPause(true);
+      setAudioData({ ...audioData, isPlay: true});
     }
   };
+  useEffect(() => {
+    setplayPause(audioData.isPlay)
+  }, [audioData.isPlay]);
 
   return (
     <>
@@ -102,7 +108,7 @@ function Player({
               className="w-8 h-8 border border-gray-300 rounded-full flex text-gray-100 mr-6"
               onClick={start}
             >
-              {!playPause ? (
+              {playPause ? (
                 <svg
                   className="fill-current h-5 w-5 m-auto"
                   xmlns="http://www.w3.org/2000/svg"
