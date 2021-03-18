@@ -45201,8 +45201,27 @@ body {
   word-break: break-all;
   overflow: hidden;
 }
-.height-main-body{
+.height-main-body {
   height: 88vh;
 }
-.displayBlock{display: block;}  
-.displayNone{display: none;}
+.displayBlock {
+  display: block;
+  text-align: right;
+}
+.displayNone {
+  display: none;
+}
+button:focus {
+  outline: none;
+}
+input:focus {
+  outline: none;
+}
+.inpurSearch {
+  padding: 6px;
+  margin-top: 8px;
+  color: black;
+  border-radius: 15px;
+  font-size: 12px;
+  border: none;
+}

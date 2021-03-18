@@ -87,11 +87,12 @@ function BodySection(props) {
     });
     setrecentlyPlayed(tmp);
   }
-  function handleClick(dataPass) {
+  function handleClick(dataPass) { 
     let tmp = [...recentlyPlayed];
     tmp.map((data) => {
       if (data.id === dataPass.id) {
         data.isPlay = !data.isPlay;
+        data.isHover = data.isPlay;
       } else {
         data.isPlay = false;
         data.isHover = false;
@@ -232,6 +233,7 @@ function BodySection(props) {
         songInfo={songInfo}
         setSongInfo={setSongInfo}
         SongChange={SongChange}
+        handleClick={handleClick}
       />
       <audio
         ref={audioControlRef}

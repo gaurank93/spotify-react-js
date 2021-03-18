@@ -7,6 +7,7 @@ function Player({
   setSongInfo,
   SongChange,
   setAudioData,
+  handleClick,
 }) {
   const [playPause, setplayPause] = useState(audioData.isPlay);
   const trackAnim = {
@@ -28,10 +29,12 @@ function Player({
       audioControlRef.current.play();
       setplayPause(false);
       setAudioData({ ...audioData, isPlay: false});
+      handleClick(audioData)
     } else {
       audioControlRef.current.pause();
       setplayPause(true);
       setAudioData({ ...audioData, isPlay: true});
+      handleClick(audioData)
     }
   };
   useEffect(() => {
