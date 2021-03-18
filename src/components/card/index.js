@@ -20,10 +20,14 @@ function Card(props) {
           alt={props.data.songName}
         />
       </div>
-      <div className="text-sm text-white text-line-clamp-1 mb-1 block">
+      <div className="text-sm text-white text-line-clamp-1 mb-1 block"
+      style={{color: props.data.isPlay && "green"}}
+      >
         {props.data.songName}
       </div>
-      <div className="relative pb-5">
+      <div className="relative pb-5"
+      style={{color: props.data.isPlay && "green"}}
+      >
         <span className="text-xs text-gray-100 text-line-clamp-1">
           {props.data.artistName}
         </span>

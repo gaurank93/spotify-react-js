@@ -45204,3 +45204,5 @@ body {
 .height-main-body{
   height: 88vh;
 }
+.displayBlock{display: block;}  
+.displayNone{display: none;}

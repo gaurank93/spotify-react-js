@@ -3,7 +3,7 @@ import Card from "../card";
 import Header from "../header";
 import Player from "../player/Player";
 
-function BodySection() {
+function BodySection(props) {
   const audioControlRef = useRef(null);
   const [songInfo, setSongInfo] = useState({
     currentTime: 0,
@@ -132,7 +132,7 @@ function BodySection() {
   return (
     <>
       <main className="col-span-5 row-span-3 overflow-auto height-main-body">
-        <Header />
+        <Header loginFunction={props.loginFunction} />
         <section className="px-6 grid gap-6 mb-8">
           <div className="flex items-center">
             <div className="flex-1">

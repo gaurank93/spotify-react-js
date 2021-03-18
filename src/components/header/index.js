@@ -1,6 +1,14 @@
-import React from "react";
+import React, { useState } from "react";
 
-function Header() {
+function Header(props) {
+  const [profileToggle, setProfileToggle] = useState(false);
+  function hendleClick() {
+    if (profileToggle === true) 
+    setProfileToggle(false);
+    else
+    setProfileToggle(true);
+    console.log(profileToggle);
+  }
   return (
     <header className="px-6 py-4 mb-6 bg-gray-600 flex items-center justify-between sticky top-0 z-10">
       <div className="flex items-center">
@@ -22,7 +30,10 @@ function Header() {
         </button>
       </div>
       <div>
-        <button className="text-xs text-white bg-gray-500 rounded-full p-px pr-3">
+        <button
+          className="text-xs text-white bg-gray-500 rounded-full p-px pr-3"
+          onClick={hendleClick}
+        >
           <img
             src="https://picsum.photos/129.webp?random=7"
             className="w-7 h-7 inline-block rounded-full mr-2"
@@ -30,6 +41,16 @@ function Header() {
           />
           Jedidiah Avelino
         </button>
+        <div className={profileToggle ? "displayBlock" : "displayNone"}>
+          <button
+            className="text-sm text-white bg-gray-500 rounded-full p-px pr-2"
+            onClick={() => {
+              props.loginFunction(false);
+            }}
+          >
+            Log Out
+          </button>
+        </div>
       </div>
     </header>
   );
